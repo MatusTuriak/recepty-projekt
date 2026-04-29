@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Recepty{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'recipes' %}">Recepty</a>
+    <a href="{% url 'add_recipe' %}">Pridať recept</a>
+</nav>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

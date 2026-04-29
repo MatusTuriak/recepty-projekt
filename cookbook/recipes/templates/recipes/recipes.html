@@ -1,0 +1,19 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Recepty{% endblock %}
+
+{% block content %}
+<h2>Zoznam receptov</h2>
+
+{% for recipe in recipes %}
+<div class="recipe">
+    <h3>{{ recipe.name }}</h3>
+    <p><strong>Kategória:</strong> {{ recipe.category.name }}</p>
+    <p><strong>Náročnosť:</strong> {{ recipe.difficulty }}</p>
+    <a href="{% url 'detail' recipe.id %}">Detail</a>
+</div>
+{% empty %}
+<p>Žiadne recepty</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Pridať recept{% endblock %}
+
+{% block content %}
+
+<h2>Pridať recept</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Názov:</label>
+    {{ form.name }}
+
+    <label>Popis:</label>
+    {{ form.description }}
+
+    <label>Postup:</label>
+    {{ form.procedure }}
+
+    <label>Čas:</label>
+    {{ form.prep_time }}
+
+    <label>Náročnosť:</label>
+    {{ form.difficulty }}
+
+    <label>Kategória:</label>
+    {{ form.category }}
+
+    <br><br>
+    <button type="submit">Uložiť</button>
+</form>
+
+{% endblock %}
