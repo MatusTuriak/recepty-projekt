@@ -17,6 +17,9 @@
 {% empty %}
     <li>Žiadne ingrediencie</li>
 {% endfor %}
+<p>
+    <a href="{% url 'add_recipe_ingredient' recipe.id %}">Pridať ingredienciu k receptu</a>
+</p>
 </ul>
 
 <h3>Postup:</h3>

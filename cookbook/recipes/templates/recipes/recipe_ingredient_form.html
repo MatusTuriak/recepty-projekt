@@ -1,0 +1,16 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Pridať ingredienciu{% endblock %}
+
+{% block content %}
+<h1>Pridať ingredienciu k receptu: {{ recipe.name }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Uložiť ingredienciu</button>
+</form>
+
+<a href="{% url 'detail' recipe.id %}">Späť na detail receptu</a>
+{% endblock %}
