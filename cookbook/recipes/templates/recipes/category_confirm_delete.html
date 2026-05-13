@@ -1,0 +1,10 @@
+<h1>Zmazať kategóriu</h1>
+
+<p>Naozaj chceš zmazať kategóriu: <strong>{{ category.name }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Áno, zmazať</button>
+</form>
+
+<a href="{% url 'category_list' %}">Nie, späť</a>

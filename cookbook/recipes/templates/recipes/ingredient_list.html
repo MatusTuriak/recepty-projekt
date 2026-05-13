@@ -1,0 +1,24 @@
+<h1>Ingrediencie</h1>
+
+<a href="{% url 'ingredient_create' %}">Pridať ingredienciu</a>
+
+<table>
+    <tr>
+        <th>Názov</th>
+        <th>Popis</th>
+        <th>Alergén / typ</th>
+        <th>Akcie</th>
+    </tr>
+
+    {% for ingredient in ingredients %}
+    <tr>
+        <td>{{ ingredient.name }}</td>
+        <td>{{ ingredient.description }}</td>
+        <td>{{ ingredient.allergen_type }}</td>
+        <td>
+            <a href="{% url 'ingredient_update' ingredient.id %}">Upraviť</a>
+            <a href="{% url 'ingredient_delete' ingredient.id %}">Zmazať</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

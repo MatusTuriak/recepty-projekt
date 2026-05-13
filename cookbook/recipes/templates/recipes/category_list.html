@@ -1,0 +1,22 @@
+<h1>Kategórie</h1>
+
+<a href="{% url 'category_create' %}">Pridať kategóriu</a>
+
+<table>
+    <tr>
+        <th>Názov</th>
+        <th>Popis</th>
+        <th>Akcie</th>
+    </tr>
+
+    {% for category in categories %}
+    <tr>
+        <td>{{ category.name }}</td>
+        <td>{{ category.description }}</td>
+        <td>
+            <a href="{% url 'category_update' category.id %}">Upraviť</a>
+            <a href="{% url 'category_delete' category.id %}">Zmazať</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

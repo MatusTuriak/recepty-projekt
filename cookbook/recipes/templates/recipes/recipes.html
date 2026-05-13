@@ -11,6 +11,8 @@
     <p><strong>Kategória:</strong> {{ recipe.category.name }}</p>
     <p><strong>Náročnosť:</strong> {{ recipe.difficulty }}</p>
     <a href="{% url 'detail' recipe.id %}">Detail</a>
+    <a href="{% url 'update_recipe' recipe.id %}">Upraviť</a>
+    <a href="{% url 'delete_recipe' recipe.id %}">Zmazať</a>
 </div>
 {% empty %}
 <p>Žiadne recepty</p>

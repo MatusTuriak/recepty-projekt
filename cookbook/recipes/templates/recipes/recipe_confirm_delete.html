@@ -1,0 +1,10 @@
+<h1>Zmazať recept</h1>
+
+<p>Naozaj chceš zmazať recept: <strong>{{ recipe.name }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Áno, zmazať</button>
+</form>
+
+<a href="{% url 'recipes' %}">Nie, späť</a>
