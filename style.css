@@ -1,0 +1,137 @@
+
+/* ========== RESET ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========== POZADIE (JEDNOLITÉ) ========== */
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: #fffaf5; /* jemná teplá krémová */
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* ========== NAVBAR ========== */
+nav {
+    background: white;
+    padding: 16px 28px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #f3f4f6;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+nav a {
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    background: #fff1e6;
+    color: #f97316;
+}
+
+/* ========== KONTAJNER ========== */
+.container {
+    width: min(1000px, 92%);
+    margin: 40px auto;
+}
+
+/* ========== TITULY ========== */
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 18px;
+}
+
+/* ========== KARTY (ČISTÉ, BEZ PÁSU) ========== */
+.recipe {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+/* odstránený farebný pás */
+.recipe:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-color: #f97316;
+}
+
+/* ========== BADGES ========== */
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 999px;
+    background: #fff1e6;
+    color: #f97316;
+    margin-right: 6px;
+    font-weight: 500;
+}
+
+/* ========== BUTTONY ========== */
+button, a.button {
+    display: inline-block;
+    padding: 10px 14px;
+    background: #f97316;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+button:hover, a.button:hover {
+    background: #ea580c;
+    transform: translateY(-1px);
+}
+
+/* ========== FORMULÁRE ========== */
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+}
+
+/* ========== GRID ========== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+/* ========== TEXT ========== */
+p {
+    color: #4b5563;
+}
