@@ -221,6 +221,7 @@ def register(request):
 
     return render(request, 'recipes/register.html', {'form': form})
 
+@login_required
 def toggle_favorite(request, id):
     recipe = get_object_or_404(Recipe, id=id)
 
@@ -232,6 +233,7 @@ def toggle_favorite(request, id):
     return redirect('detail', id=recipe.id)
 
 
+@login_required
 def favorite_recipes(request):
-    recipes = request.user.recipe_set.all()
+    recipes = Recipe.objects.filter(favorites=request.user)
     return render(request, 'recipes/favorites.html', {'recipes': recipes})
