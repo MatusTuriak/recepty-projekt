@@ -1,9 +1,20 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Kategória{% endblock %}
+
+{% block content %}
+
 <h1>Kategória</h1>
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+
     <button type="submit">Uložiť</button>
 </form>
 
-<a href="{% url 'category_list' %}">Späť</a>
+<p>
+    <a href="{% url 'category_list' %}">Späť na kategórie</a>
+</p>
+
+{% endblock %}

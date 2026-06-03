@@ -1,10 +1,19 @@
-<h1>Zmazať kategóriu</h1>
+{% extends 'recipes/base.html' %}
 
-<p>Naozaj chceš zmazať kategóriu: <strong>{{ category.name }}</strong>?</p>
+{% block title %}Zmazať kategóriu{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Áno, zmazať</button>
-</form>
+{% block content %}
 
-<a href="{% url 'category_list' %}">Nie, späť</a>
+<div class="delete-box">
+    <h1>Zmazať kategóriu</h1>
+
+    <p>Naozaj chceš zmazať kategóriu <strong>{{ category.name }}</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Áno, zmazať</button>
+        <a href="{% url 'category_list' %}">Zrušiť</a>
+    </form>
+</div>
+
+{% endblock %}

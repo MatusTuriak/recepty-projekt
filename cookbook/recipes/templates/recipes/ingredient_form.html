@@ -1,9 +1,20 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Ingrediencia{% endblock %}
+
+{% block content %}
+
 <h1>Ingrediencia</h1>
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+
     <button type="submit">Uložiť</button>
 </form>
 
-<a href="{% url 'ingredient_list' %}">Späť</a>
+<p>
+    <a href="{% url 'ingredient_list' %}">Späť na ingrediencie</a>
+</p>
+
+{% endblock %}

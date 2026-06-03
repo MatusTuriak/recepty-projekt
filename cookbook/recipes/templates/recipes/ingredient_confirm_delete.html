@@ -1,10 +1,19 @@
-<h1>Zmazať ingredienciu</h1>
+{% extends 'recipes/base.html' %}
 
-<p>Naozaj chceš zmazať ingredienciu: <strong>{{ ingredient.name }}</strong>?</p>
+{% block title %}Zmazať ingredienciu{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Áno, zmazať</button>
-</form>
+{% block content %}
 
-<a href="{% url 'ingredient_list' %}">Nie, späť</a>
+<div class="delete-box">
+    <h1>Zmazať ingredienciu</h1>
+
+    <p>Naozaj chceš zmazať ingredienciu <strong>{{ ingredient.name }}</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Áno, zmazať</button>
+        <a href="{% url 'ingredient_list' %}">Zrušiť</a>
+    </form>
+</div>
+
+{% endblock %}

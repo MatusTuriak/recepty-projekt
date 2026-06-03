@@ -3,16 +3,61 @@
 {% block title %}Recepty{% endblock %}
 
 {% block content %}
+
+<h1>Recepty</h1>
+
+<form method="get">
+    <input 
+        type="text" 
+        name="search" 
+        placeholder="Vyhľadať recept..." 
+        value="{{ search|default:'' }}"
+    >
+
+    <select name="category">
+        <option value="">Všetky kategórie</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}"
+                {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}
+            >
+                {{ category.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <select name="difficulty">
+        <option value="">Všetky obtiažnosti</option>
+        <option value="easy" {% if selected_difficulty == "easy" %}selected{% endif %}>Ľahké</option>
+        <option value="medium" {% if selected_difficulty == "medium" %}selected{% endif %}>Stredné</option>
+        <option value="hard" {% if selected_difficulty == "hard" %}selected{% endif %}>Ťažké</option>
+    </select>
+
+    <button type="submit">Filtrovať</button>
+    <a href="{% url 'recipes' %}">Reset</a>
+</form>
+
+<hr>
+
 <h2>Zoznam receptov</h2>
+
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'add_recipe' %}">Pridať recept</a>
+    </p>
+{% endif %}
 
 {% for recipe in recipes %}
 <div class="recipe">
     <h3>{{ recipe.name }}</h3>
     <p><strong>Kategória:</strong> {{ recipe.category.name }}</p>
     <p><strong>Náročnosť:</strong> {{ recipe.difficulty }}</p>
+
     <a href="{% url 'detail' recipe.id %}">Detail</a>
-    <a href="{% url 'update_recipe' recipe.id %}">Upraviť</a>
-    <a href="{% url 'delete_recipe' recipe.id %}">Zmazať</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'update_recipe' recipe.id %}">Upraviť</a>
+        <a href="{% url 'delete_recipe' recipe.id %}">Zmazať</a>
+    {% endif %}
 </div>
 {% empty %}
 <p>Žiadne recepty</p>

@@ -1,6 +1,9 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Recipe, RecipeIngredient, Category, Ingredient
 from .forms import RecipeForm, CategoryForm, IngredientForm, RecipeIngredientForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -9,7 +12,29 @@ def index(request):
 
 def recipe_list(request):
     recipes = Recipe.objects.all()
-    return render(request, 'recipes/recipes.html', {'recipes': recipes})
+
+    search = request.GET.get('search')
+    category = request.GET.get('category')
+    difficulty = request.GET.get('difficulty')
+
+    if search:
+        recipes = recipes.filter(name__icontains=search)
+
+    if category:
+        recipes = recipes.filter(category_id=category)
+
+    if difficulty:
+        recipes = recipes.filter(difficulty=difficulty)
+
+    categories = Category.objects.all()
+
+    return render(request, 'recipes/recipes.html', {
+        'recipes': recipes,
+        'categories': categories,
+        'search': search,
+        'selected_category': category,
+        'selected_difficulty': difficulty,
+    })
 
 
 def recipe_detail(request, id):
@@ -22,9 +47,11 @@ def recipe_detail(request, id):
     })
 
 
+@login_required
 def add_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST)
+
         if form.is_valid():
             form.save()
             return redirect('recipes')
@@ -33,6 +60,55 @@ def add_recipe(request):
 
     return render(request, 'recipes/form.html', {'form': form})
 
+
+@login_required
+def update_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, instance=recipe)
+
+        if form.is_valid():
+            form.save()
+            return redirect('recipes')
+    else:
+        form = RecipeForm(instance=recipe)
+
+    return render(request, 'recipes/form.html', {'form': form})
+
+
+@login_required
+def delete_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('recipes')
+
+    return render(request, 'recipes/recipe_confirm_delete.html', {'recipe': recipe})
+
+
+@login_required
+def add_recipe_ingredient(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+
+    if request.method == 'POST':
+        form = RecipeIngredientForm(request.POST)
+
+        if form.is_valid():
+            recipe_ingredient = form.save(commit=False)
+            recipe_ingredient.recipe = recipe
+            recipe_ingredient.save()
+            return redirect('detail', id=recipe.id)
+    else:
+        form = RecipeIngredientForm()
+
+    return render(request, 'recipes/recipe_ingredient_form.html', {
+        'form': form,
+        'recipe': recipe
+    })
+
+
 # CATEGORY CRUD
 
 def category_list(request):
@@ -40,9 +116,11 @@ def category_list(request):
     return render(request, 'recipes/category_list.html', {'categories': categories})
 
 
+@login_required
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
+
         if form.is_valid():
             form.save()
             return redirect('category_list')
@@ -52,11 +130,13 @@ def category_create(request):
     return render(request, 'recipes/category_form.html', {'form': form})
 
 
+@login_required
 def category_update(request, pk):
     category = get_object_or_404(Category, pk=pk)
 
     if request.method == 'POST':
         form = CategoryForm(request.POST, instance=category)
+
         if form.is_valid():
             form.save()
             return redirect('category_list')
@@ -66,6 +146,7 @@ def category_update(request, pk):
     return render(request, 'recipes/category_form.html', {'form': form})
 
 
+@login_required
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
 
@@ -83,9 +164,11 @@ def ingredient_list(request):
     return render(request, 'recipes/ingredient_list.html', {'ingredients': ingredients})
 
 
+@login_required
 def ingredient_create(request):
     if request.method == 'POST':
         form = IngredientForm(request.POST)
+
         if form.is_valid():
             form.save()
             return redirect('ingredient_list')
@@ -95,11 +178,13 @@ def ingredient_create(request):
     return render(request, 'recipes/ingredient_form.html', {'form': form})
 
 
+@login_required
 def ingredient_update(request, pk):
     ingredient = get_object_or_404(Ingredient, pk=pk)
 
     if request.method == 'POST':
         form = IngredientForm(request.POST, instance=ingredient)
+
         if form.is_valid():
             form.save()
             return redirect('ingredient_list')
@@ -109,6 +194,7 @@ def ingredient_update(request, pk):
     return render(request, 'recipes/ingredient_form.html', {'form': form})
 
 
+@login_required
 def ingredient_delete(request, pk):
     ingredient = get_object_or_404(Ingredient, pk=pk)
 
@@ -118,43 +204,16 @@ def ingredient_delete(request, pk):
 
     return render(request, 'recipes/ingredient_confirm_delete.html', {'ingredient': ingredient})
 
-def update_recipe(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
 
+def register(request):
     if request.method == 'POST':
-        form = RecipeForm(request.POST, instance=recipe)
+        form = UserCreationForm(request.POST)
+
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('recipes')
     else:
-        form = RecipeForm(instance=recipe)
+        form = UserCreationForm()
 
-    return render(request, 'recipes/form.html', {'form': form})
-
-
-def delete_recipe(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
-
-    if request.method == 'POST':
-        recipe.delete()
-        return redirect('recipes')
-
-    return render(request, 'recipes/recipe_confirm_delete.html', {'recipe': recipe})
-
-def add_recipe_ingredient(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
-
-    if request.method == 'POST':
-        form = RecipeIngredientForm(request.POST)
-        if form.is_valid():
-            recipe_ingredient = form.save(commit=False)
-            recipe_ingredient.recipe = recipe
-            recipe_ingredient.save()
-            return redirect('detail', id=recipe.id)
-    else:
-        form = RecipeIngredientForm()
-
-    return render(request, 'recipes/recipe_ingredient_form.html', {
-        'form': form,
-        'recipe': recipe
-    })
+    return render(request, 'recipes/register.html', {'form': form})

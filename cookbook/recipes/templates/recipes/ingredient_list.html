@@ -1,24 +1,40 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Ingrediencie{% endblock %}
+
+{% block content %}
+
 <h1>Ingrediencie</h1>
 
-<a href="{% url 'ingredient_create' %}">Pridať ingredienciu</a>
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'ingredient_create' %}">Pridať ingredienciu</a>
+    </p>
+{% endif %}
 
-<table>
-    <tr>
-        <th>Názov</th>
-        <th>Popis</th>
-        <th>Alergén / typ</th>
-        <th>Akcie</th>
-    </tr>
+{% for ingredient in ingredients %}
+    <div class="list-card">
+        <h3>{{ ingredient.name }}</h3>
 
-    {% for ingredient in ingredients %}
-    <tr>
-        <td>{{ ingredient.name }}</td>
-        <td>{{ ingredient.description }}</td>
-        <td>{{ ingredient.allergen_type }}</td>
-        <td>
+        {% if ingredient.description %}
+            <p>{{ ingredient.description }}</p>
+        {% else %}
+            <p>Bez popisu</p>
+        {% endif %}
+
+        {% if ingredient.allergen_type %}
+            <p><strong>Alergén / typ:</strong> {{ ingredient.allergen_type }}</p>
+        {% else %}
+            <p><strong>Alergén / typ:</strong> Neuvedené</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
             <a href="{% url 'ingredient_update' ingredient.id %}">Upraviť</a>
             <a href="{% url 'ingredient_delete' ingredient.id %}">Zmazať</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+        {% endif %}
+    </div>
+{% empty %}
+    <p class="empty-text">Zatiaľ nie sú pridané žiadne ingrediencie.</p>
+{% endfor %}
+
+{% endblock %}

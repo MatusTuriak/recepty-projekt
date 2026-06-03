@@ -1,0 +1,21 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Registrácia{% endblock %}
+
+{% block content %}
+<div class="register-box">
+    <h1>Registrácia</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Registrovať sa</button>
+    </form>
+
+    <p>
+        Už máš účet?
+        <a href="{% url 'login' %}">Prihlás sa</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,28 +1,35 @@
 {% extends 'recipes/base.html' %}
 
-{% block title %}Detail{% endblock %}
+{% block title %}Detail receptu{% endblock %}
 
 {% block content %}
+<div class="detail-card">
+    <h1>{{ recipe.name }}</h1>
 
-<h1>{{ recipe.name }}</h1>
+    <p><strong>Kategória:</strong> {{ recipe.category.name }}</p>
+    <p><strong>Náročnosť:</strong> {{ recipe.difficulty }}</p>
+    <p><strong>Čas prípravy:</strong> {{ recipe.prep_time }} min</p>
 
-<p><strong>Kategória:</strong> {{ recipe.category.name }}</p>
-<p><strong>Náročnosť:</strong> {{ recipe.difficulty }}</p>
-<p><strong>Čas:</strong> {{ recipe.prep_time }} min</p>
+    <h3>Popis</h3>
+    <p>{{ recipe.description }}</p>
 
-<h3>Ingrediencie:</h3>
-<ul>
-{% for item in ingredients %}
-    <li>{{ item.ingredient.name }} - {{ item.quantity }} {{ item.unit }}</li>
-{% empty %}
-    <li>Žiadne ingrediencie</li>
-{% endfor %}
-<p>
-    <a href="{% url 'add_recipe_ingredient' recipe.id %}">Pridať ingredienciu k receptu</a>
-</p>
-</ul>
+    <h3>Postup</h3>
+    <p>{{ recipe.procedure }}</p>
 
-<h3>Postup:</h3>
-<p>{{ recipe.procedure }}</p>
+    <h3>Ingrediencie</h3>
 
+    {% for item in ingredients %}
+        <div class="ingredient-item">
+            {{ item.ingredient.name }} - {{ item.quantity }} {{ item.unit }}
+        </div>
+    {% empty %}
+        <p class="empty-text">Žiadne ingrediencie</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <p>
+            <a href="{% url 'add_recipe_ingredient' recipe.id %}">Pridať ingredienciu</a>
+        </p>
+    {% endif %}
+</div>
 {% endblock %}
