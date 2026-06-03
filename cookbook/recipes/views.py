@@ -16,6 +16,7 @@ def recipe_list(request):
     search = request.GET.get('search')
     category = request.GET.get('category')
     difficulty = request.GET.get('difficulty')
+    ingredient = request.GET.get('ingredient')
 
     if search:
         recipes = recipes.filter(name__icontains=search)
@@ -26,14 +27,16 @@ def recipe_list(request):
     if difficulty:
         recipes = recipes.filter(difficulty=difficulty)
 
+    if ingredient:
+        recipes = recipes.filter(recipeingredient__ingredient_id=ingredient)
+
     categories = Category.objects.all()
+    ingredients = Ingredient.objects.all()
 
     return render(request, 'recipes/recipes.html', {
         'recipes': recipes,
         'categories': categories,
-        'search': search,
-        'selected_category': category,
-        'selected_difficulty': difficulty,
+        'ingredients': ingredients
     })
 
 
@@ -217,3 +220,18 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, 'recipes/register.html', {'form': form})
+
+def toggle_favorite(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+
+    if recipe.favorites.filter(id=request.user.id).exists():
+        recipe.favorites.remove(request.user)
+    else:
+        recipe.favorites.add(request.user)
+
+    return redirect('detail', id=recipe.id)
+
+
+def favorite_recipes(request):
+    recipes = request.user.recipe_set.all()
+    return render(request, 'recipes/favorites.html', {'recipes': recipes})

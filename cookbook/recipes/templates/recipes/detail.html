@@ -31,5 +31,13 @@
             <a href="{% url 'add_recipe_ingredient' recipe.id %}">Pridať ingredienciu</a>
         </p>
     {% endif %}
+
+    {% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'toggle_favorite' recipe.id %}">
+            Pridať / odobrať z obľúbených
+        </a>
+    </p>
+    {% endif %}
 </div>
 {% endblock %}

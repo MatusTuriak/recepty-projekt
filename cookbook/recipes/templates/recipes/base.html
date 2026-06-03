@@ -28,6 +28,9 @@
         <a href="{% url 'login' %}">Prihlásenie</a>
         <a href="{% url 'register' %}">Registrácia</a>
     {% endif %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'favorite_recipes' %}">Obľúbené recepty</a>
+    {% endif %}
 </nav>
 
 <div class="container">

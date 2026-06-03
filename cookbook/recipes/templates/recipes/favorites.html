@@ -1,0 +1,20 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Obľúbené recepty{% endblock %}
+
+{% block content %}
+<h1>Obľúbené recepty</h1>
+
+{% for recipe in recipes %}
+    <div class="recipe">
+        <h3>{{ recipe.name }}</h3>
+        <p><strong>Kategória:</strong> {{ recipe.category.name }}</p>
+        <p><strong>Náročnosť:</strong> {{ recipe.difficulty }}</p>
+
+        <a href="{% url 'detail' recipe.id %}">Detail</a>
+    </div>
+{% empty %}
+    <p>Nemáš žiadne obľúbené recepty.</p>
+{% endfor %}
+
+{% endblock %}

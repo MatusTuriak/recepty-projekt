@@ -26,10 +26,21 @@
     </select>
 
     <select name="difficulty">
-        <option value="">Všetky obtiažnosti</option>
-        <option value="easy" {% if selected_difficulty == "easy" %}selected{% endif %}>Ľahké</option>
-        <option value="medium" {% if selected_difficulty == "medium" %}selected{% endif %}>Stredné</option>
-        <option value="hard" {% if selected_difficulty == "hard" %}selected{% endif %}>Ťažké</option>
+        <option value="">Všetky náročnosti</option>
+        <option value="Easy" {% if selected_difficulty == "Easy" %}selected{% endif %}>Easy</option>
+        <option value="Medium" {% if selected_difficulty == "Medium" %}selected{% endif %}>Medium</option>
+        <option value="Hard" {% if selected_difficulty == "Hard" %}selected{% endif %}>Hard</option>
+    </select>
+
+    <select name="ingredient">
+        <option value="">Všetky ingrediencie</option>
+        {% for ingredient in ingredients %}
+            <option value="{{ ingredient.id }}"
+                {% if selected_ingredient == ingredient.id|stringformat:"s" %}selected{% endif %}
+            >
+                {{ ingredient.name }}
+            </option>
+        {% endfor %}
     </select>
 
     <button type="submit">Filtrovať</button>
