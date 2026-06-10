@@ -52,16 +52,34 @@ def recipe_detail(request, id):
 
 @login_required
 def add_recipe(request):
+    ingredients = Ingredient.objects.all()
+
     if request.method == 'POST':
         form = RecipeForm(request.POST)
 
         if form.is_valid():
-            form.save()
-            return redirect('recipes')
+            recipe = form.save()
+
+            ingredient_id = request.POST.get('ingredient')
+            quantity = request.POST.get('quantity')
+            unit = request.POST.get('unit')
+
+            if ingredient_id and quantity and unit:
+                RecipeIngredient.objects.create(
+                    recipe=recipe,
+                    ingredient_id=ingredient_id,
+                    quantity=quantity,
+                    unit=unit
+                )
+
+            return redirect('detail', id=recipe.id)
     else:
         form = RecipeForm()
 
-    return render(request, 'recipes/form.html', {'form': form})
+    return render(request, 'recipes/form.html', {
+        'form': form,
+        'ingredients': ingredients
+    })
 
 
 @login_required
