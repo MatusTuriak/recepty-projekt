@@ -60,16 +60,14 @@ def add_recipe(request):
         if form.is_valid():
             recipe = form.save()
 
-            ingredient_id = request.POST.get('ingredient')
-            quantity = request.POST.get('quantity')
-            unit = request.POST.get('unit')
+            selected_ingredients = request.POST.getlist('ingredients')
 
-            if ingredient_id and quantity and unit:
+            for ingredient_id in selected_ingredients:
                 RecipeIngredient.objects.create(
                     recipe=recipe,
                     ingredient_id=ingredient_id,
-                    quantity=quantity,
-                    unit=unit
+                    quantity=0,
+                    unit=''
                 )
 
             return redirect('detail', id=recipe.id)

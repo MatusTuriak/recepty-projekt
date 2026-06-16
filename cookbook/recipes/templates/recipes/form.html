@@ -27,21 +27,15 @@
     <label>Kategória:</label>
     {{ form.category }}
 
-    <h3>Ingrediencia k receptu</h3>
+    <h3>Ingrediencie k receptu</h3>
 
-    <label>Ingrediencia:</label>
-    <select name="ingredient">
-        <option value="">Vyber ingredienciu</option>
-        {% for ingredient in ingredients %}
-            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
-        {% endfor %}
-    </select>
-
-    <label>Množstvo:</label>
-    <input type="number" step="0.01" name="quantity" placeholder="napr. 200">
-
-    <label>Jednotka:</label>
-    <input type="text" name="unit" placeholder="napr. g, ml, ks">
+{% for ingredient in ingredients %}
+    <label>
+        <input type="checkbox" name="ingredients" value="{{ ingredient.id }}">
+        {{ ingredient.name }}
+    </label>
+    <br>
+{% endfor %}
 
     <br><br>
     <button type="submit">Uložiť</button>
