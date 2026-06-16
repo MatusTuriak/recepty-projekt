@@ -29,6 +29,10 @@ ALLOWED_HOSTS = ['*']
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://recepty-projekt-2.onrender.com',
+]
+
 
 # Application definition
 
